@@ -1,0 +1,48 @@
+---
+title: 'CHISQUARE TEST: IN MARK_DOWN VISUAL EDITOR'
+author: "Langat"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+ echo = TRUE,
+ message=FALSE,
+ warning=FALSE)
+```
+
+**CHI SQUARE TEST**
+
+##### *LOAD LIBRARIES*
+
+```{r}
+library(tidyverse)
+library(forcats)
+gss_cat #Datasets
+```
+
+```{r, echo=TRUE}
+my_data <- gss_cat %>% select(marital) %>%
+    filter(marital %in% c("Married",
+                          "Never married", 
+                          "Divorced")) %>% 
+     mutate(marital=fct_drop(marital)) 
+my_data
+# unique(my_data)
+```
+
+```{r}
+my_table <- table(my_data)
+ my_table %>% as_tibble()
+```
+
+```{r}
+alpha <- 0.05
+chisq.test(my_table)
+# my_data %>%  table() %>% chisq.test()
+```
